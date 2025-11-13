@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
-import { Search, BookOpen, Calendar, User } from 'lucide-react';
+import { Search, BookOpen, Calendar, User, X } from 'lucide-react';
 
 const Books = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedBook, setSelectedBook] = useState(null);
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const Books = () => {
     }
   };
 
-  const filteredBooks = books.filter(book =>
+  const filteredBooks = books.filter((book) =>
     book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     book.author.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -54,13 +55,12 @@ const Books = () => {
 
   return (
     <div
-      className="min-h-screen py-12 "
+      className="min-h-screen py-12"
       style={{
         backgroundImage:
           "url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1950&q=80')",
         backgroundSize: 'cover',
         backgroundBlendMode: 'overlay',
-      
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,7 +89,8 @@ const Books = () => {
           {filteredBooks.map((book) => (
             <div
               key={book.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+              onClick={() => setSelectedBook(book)}
+              className="cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
             >
               <div className="h-56 flex items-center justify-center bg-yellow-50">
                 <BookOpen className="h-16 w-16 text-yellow-400" />
@@ -128,6 +129,39 @@ const Books = () => {
           </div>
         )}
       </div>
+
+      {/* Book Details Modal */}
+      {selectedBook && (
+        <div className="fixed inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl shadow-2xl p-6 max-w-lg w-full relative">
+            <button
+              onClick={() => setSelectedBook(null)}
+              className="absolute top-3 right-3 text-gray-500 hover:text-red-500"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="text-center mb-4">
+              <BookOpen className="h-12 w-12 text-yellow-400 mx-auto mb-3" />
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">{selectedBook.title}</h2>
+              <p className="text-gray-600">by {selectedBook.author}</p>
+            </div>
+            <div className="text-gray-700 space-y-2">
+              {selectedBook.description && (
+                <p><strong>Description:</strong> {selectedBook.description}</p>
+              )}
+              {selectedBook.published_date && (
+                <p><strong>Published:</strong> {selectedBook.published_date}</p>
+              )}
+              <p>
+                <strong>Status:</strong>{' '}
+                <span className={selectedBook.available ? 'text-green-600' : 'text-red-600'}>
+                  {selectedBook.available ? 'Available' : 'Unavailable'}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

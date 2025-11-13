@@ -6,7 +6,11 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Books from './pages/Books';
+import ChangePassword from './pages/ChangePassword';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 import AdminPanel from './pages/AdminPanel';
+
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -66,6 +70,12 @@ function AppContent() {
             </PublicRoute>
           } 
         />
+
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/change-password" element={<ChangePassword />} />
+        
+
         <Route 
           path="/books" 
           element={

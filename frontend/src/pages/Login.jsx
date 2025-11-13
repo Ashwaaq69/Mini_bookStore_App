@@ -114,7 +114,21 @@ const Login = () => {
               <Link to="/register" className="text-yellow-400 font-medium hover:text-yellow-500">
                 Sign up
               </Link>
+               <Link
+        to="/forgot-password"
+        className="text-sm ml-4 text-yellow-400 hover:text-yellow-500 font-medium"
+      >
+        Forgot password?
+      </Link>
             </div>
+   
+<div>
+    
+
+
+   
+  </div>
+
           </form>
         </div>
       </div>
