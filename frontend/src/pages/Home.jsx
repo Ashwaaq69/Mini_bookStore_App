@@ -15,6 +15,7 @@ const Home = () => {
           backgroundImage:
             "url('https://imgs.search.brave.com/OkST8WcJ46sDLnARS3CLyIkJBtCjFXdu53cqmrwhYz4/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9zb2Np/YWxwcmludHN0dWRp/by5jb20vY2RuL3No/b3AvZmlsZXMvdGlu/eS1ib29rc2hlbGYt/MS5qcGc_dj0xNzYy/Mjk4NTA3JndpZHRo/PTE0NDU')",
         }}
+        
       >
         <div className="absolute inset-0 "></div>
         <div className="relative text-center px-4">
