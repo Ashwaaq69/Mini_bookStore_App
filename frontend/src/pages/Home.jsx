@@ -6,6 +6,7 @@ import { BookOpen, Users, Shield, ArrowRight } from 'lucide-react';
 const Home = () => {
   const { isAuthenticated } = useAuth();
 
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
