@@ -10,9 +10,7 @@ const Books = () => {
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchBooks();
-    }
+    if (isAuthenticated) fetchBooks();
   }, [isAuthenticated]);
 
   const fetchBooks = async () => {
@@ -33,8 +31,8 @@ const Books = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center p-6 bg-white rounded-xl shadow-lg">
           <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Authentication Required</h2>
           <p className="text-gray-600">Please log in to view our book collection.</p>
@@ -45,9 +43,9 @@ const Books = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto"></div>
           <p className="mt-4 text-gray-600">Loading books...</p>
         </div>
       </div>
@@ -55,60 +53,68 @@ const Books = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div
+      className="min-h-screen py-12 "
+      style={{
+        backgroundImage:
+          "url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1950&q=80')",
+        backgroundSize: 'cover',
+        backgroundBlendMode: 'overlay',
+      
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Our Book Collection</h1>
-          <p className="text-gray-600">Discover amazing books from various genres</p>
+        <div className="mb-12 text-center">
+          <h1 className="text-4xl font-bold text-yellow-300 mb-2">Our Book Collection</h1>
+          <p className="text-yellow-300 text-lg">Discover amazing books from various genres</p>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-8">
-          <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+        <div className="mb-12 flex justify-center">
+          <div className="relative w-full max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white h-5 w-5" />
             <input
               type="text"
               placeholder="Search books or authors..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="input-field pl-10"
+              className="w-full text-black pl-10 pr-4 py-2 rounded-lg border border-gray-500 focus:border-yellow-400 focus:ring focus:ring-yellow-200 transition duration-300 outline-none"
             />
           </div>
         </div>
 
         {/* Books Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filteredBooks.map((book) => (
-            <div key={book.id} className="card p-6 hover:shadow-xl transition-shadow duration-300">
-              <div className="flex items-center justify-center bg-primary-50 rounded-lg h-48 mb-4">
-                <BookOpen className="h-16 w-16 text-primary-600" />
+            <div
+              key={book.id}
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="h-56 flex items-center justify-center bg-yellow-50">
+                <BookOpen className="h-16 w-16 text-yellow-400" />
               </div>
-              
-              <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2">
-                {book.title}
-              </h3>
-              
-              <div className="flex items-center text-gray-600 mb-2">
-                <User className="h-4 w-4 mr-2" />
-                <span className="text-sm">{book.author}</span>
-              </div>
-              
-              {book.published_date && (
-                <div className="flex items-center text-gray-600 mb-4">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  <span className="text-sm">{book.published_date}</span>
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{book.title}</h3>
+                <div className="flex items-center text-gray-600 mb-2">
+                  <User className="h-4 w-4 mr-2" />
+                  <span className="text-sm">{book.author}</span>
                 </div>
-              )}
-              
-              <div className="flex justify-between items-center">
-                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                  book.available 
-                    ? 'bg-green-100 text-green-800' 
-                    : 'bg-red-100 text-red-800'
-                }`}>
-                  {book.available ? 'Available' : 'Unavailable'}
-                </span>
+                {book.published_date && (
+                  <div className="flex items-center text-gray-600 mb-4">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    <span className="text-sm">{book.published_date}</span>
+                  </div>
+                )}
+                <div className="flex justify-between items-center">
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      book.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                    }`}
+                  >
+                    {book.available ? 'Available' : 'Unavailable'}
+                  </span>
+                </div>
               </div>
             </div>
           ))}
