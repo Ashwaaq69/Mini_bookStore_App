@@ -133,10 +133,12 @@ def home():
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json() or {}
-    username, email, password = data.get('username'), data.get('userEmail'), data.get('password')
+    username = data.get('username')
+    email = data.get('email')  # FIXED
+    password = data.get('password')
 
     if not username or not email or not password:
-        return jsonify({"error": "username, userEmail, and password are required"}), 400
+        return jsonify({"error": "username, email, and password are required"}), 400
 
     if User.query.filter((User.username == username) | (User.userEmail == email)).first():
         return jsonify({"error": "Username or Email already exists"}), 400
@@ -144,6 +146,7 @@ def register():
     user = User(username=username, userEmail=email, password_hash=generate_password_hash(password))
     db.session.add(user)
     db.session.commit()
+
     return jsonify({"message": "User registered successfully"}), 201
 
 
